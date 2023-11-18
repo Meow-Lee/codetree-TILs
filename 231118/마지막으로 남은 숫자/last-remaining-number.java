@@ -20,7 +20,12 @@ public class Main {
             int b = pq.poll();
 
             int tmp = Math.abs(a - b);
-            pq.offer(tmp);
+            if(tmp == 0){
+                continue;
+            }
+            else{
+                pq.offer(tmp);
+            }
         }
 
         if(pq.isEmpty()){
