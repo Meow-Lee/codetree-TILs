@@ -21,7 +21,7 @@ public class Main {
         while (it.hasNext()) {
             Map.Entry<String, Integer> entry = it.next();
 
-            float ratio = (float)entry.getValue() / 5 * 100;
+            float ratio = (float)entry.getValue() / n * 100;
             System.out.printf(entry.getKey() + " %.4f", ratio);
             System.out.println();
         }
