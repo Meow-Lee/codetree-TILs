@@ -12,26 +12,29 @@ public class Main {
             num[i] = Integer.parseInt(stk.nextToken());
         }
 
+        int[] prefixSum = new int[n + 1];
+        int sum = 0;
+        for (int i = 1; i <= n; i++) {
+            sum += num[i];
+            prefixSum[i] = sum;
+        }
+
         double ans = 0;
-        int idx = 2;
-        while (idx <= n) {
+        int idx = 1;
+        while (idx < n) {
             PriorityQueue<Integer> pq = new PriorityQueue<>();
-            for (int i = idx; i <= n; i++) {
+            for (int i = idx+1; i <= n; i++) {
                 pq.offer(num[i]);
             }
-            pq.poll();
 
-            int sum = 0;
+            int val = prefixSum[n] - prefixSum[idx] - pq.poll();
             int size = pq.size();
-            while (!pq.isEmpty()) {
-                sum += pq.poll();
-            }
 
             if (size == 0) {
                 idx++;
                 continue;
             }
-            ans = Math.max(ans, sum / (double) size);
+            ans = Math.max(ans, val / (double) size);
             idx++;
         }
         System.out.printf("%.2f", ans);
