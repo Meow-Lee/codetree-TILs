@@ -7,36 +7,28 @@ public class Main {
         int n = Integer.parseInt(br.readLine());
 
         StringTokenizer stk = new StringTokenizer(br.readLine(), " ");
-        int[] num = new int[n + 1];
-        for (int i = 1; i <= n; i++) {
-            num[i] = Integer.parseInt(stk.nextToken());
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(stk.nextToken());
         }
 
-        int[] prefixSum = new int[n + 1];
-        int sum = 0;
-        for (int i = 1; i <= n; i++) {
-            sum += num[i];
-            prefixSum[i] = sum;
-        }
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        pq.offer(arr[n-1]);
+        int sumVal = 0;
+        sumVal += arr[n-1];
 
-        double ans = 0;
-        int idx = 1;
-        while (idx < n) {
-            PriorityQueue<Integer> pq = new PriorityQueue<>();
-            for (int i = idx+1; i <= n; i++) {
-                pq.offer(num[i]);
+        double maxAvg = 0;
+        for (int i = n - 2; i >= 1; i--) {
+            pq.add(arr[i]);
+            sumVal += arr[i];
+
+            double avg = (double) (sumVal - pq.peek()) / (n - i - 1);
+
+            if (maxAvg < avg) {
+                maxAvg = avg;
             }
-
-            int val = prefixSum[n] - prefixSum[idx] - pq.poll();
-            int size = pq.size();
-
-            if (size == 0) {
-                idx++;
-                continue;
-            }
-            ans = Math.max(ans, val / (double) size);
-            idx++;
         }
-        System.out.printf("%.2f", ans);
+
+        System.out.printf("%.2f", maxAvg);
     }
 }
